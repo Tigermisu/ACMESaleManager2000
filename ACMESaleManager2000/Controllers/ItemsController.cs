@@ -102,23 +102,19 @@ namespace ACMESaleManager2000.Controllers
 
         // DELETE: api/Items/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteItemEntity([FromRoute] int id)
+        public IActionResult DeleteItemEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var itemEntity = await _context.Items.SingleOrDefaultAsync(m => m.Id == id);
-            if (itemEntity == null)
+            if (_itemService.DeleteEntity(id))
             {
-                return NotFound();
+                return Ok();
             }
 
-            _context.Items.Remove(itemEntity);
-            await _context.SaveChangesAsync();
-
-            return Ok(itemEntity);
+            return NotFound();
         }
 
         private bool ItemEntityExists(int id)

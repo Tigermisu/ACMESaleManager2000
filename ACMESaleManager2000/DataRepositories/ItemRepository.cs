@@ -2,6 +2,7 @@
 using ACMESaleManager2000.DataEntities;
 using ACMESaleManager2000.DomainObjects;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,23 +16,19 @@ namespace ACMESaleManager2000.DataRepositories
         {
         }
 
-        public override bool EntityExists(int Id)
-        {
-            return _context.Items.Any(e => e.Id == Id);
-        }
-
-        public override List<Item> GetAll() {
-            return GetItems();
+        protected override DbSet<ItemEntity> DbSet { get {
+                return _context.Items;
+            }
         }
 
         public List<Item> GetItems()
         {
-            return Map(_context.Items.ToList());
+            return GetAll();
         }
 
         public List<Item> GetLowStockItems(int stockThreshold)
         {
-            return Map(_context.Items.Where(i => i.QuantityAvailable <= stockThreshold).ToList());
+            return Map(DbSet.Where(i => i.QuantityAvailable <= stockThreshold).ToList());
         }
 
         public List<Item> GetPopularItems(int saleThreshold)

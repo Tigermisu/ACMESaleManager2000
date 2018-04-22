@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ACMESaleManager2000.DataEntities
 {
-    public class ItemEntity
+    public class ItemEntity : IEntity
     {
         [Key]
         public int Id { get; set; }

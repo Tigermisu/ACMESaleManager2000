@@ -1,6 +1,7 @@
 ﻿using ACMESaleManager2000.Data;
 using ACMESaleManager2000.DataEntities;
 using ACMESaleManager2000.DomainObjects;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,19 +15,15 @@ namespace ACMESaleManager2000.DataRepositories
         {
         }
 
-        public override bool EntityExists(int Id)
-        {
-            return _context.PurchaseOrders.Any(e => e.Id == Id);
-        }
-
-        public override List<PurchaseOrder> GetAll()
-        {
-            return GetPurchaseOrders();
+        protected override DbSet<PurchaseOrderEntity> DbSet {
+            get {
+                return _context.PurchaseOrders;
+            }
         }
 
         public List<PurchaseOrder> GetPurchaseOrders()
         {
-            return Map(_context.PurchaseOrders.ToList());
+            return GetAll();
         }
     }
 }

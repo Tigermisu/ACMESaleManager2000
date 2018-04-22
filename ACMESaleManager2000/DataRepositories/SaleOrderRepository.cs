@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ACMESaleManager2000.Data;
 using ACMESaleManager2000.DataEntities;
 using ACMESaleManager2000.DomainObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace ACMESaleManager2000.DataRepositories
 {
@@ -14,19 +15,15 @@ namespace ACMESaleManager2000.DataRepositories
         {
         }
 
-        public override bool EntityExists(int Id)
-        {
-            return _context.SaleOrders.Any(e => e.Id == Id);
-        }
-
-        public override List<SaleOrder> GetAll()
-        {
-            return GetSaleOrders();
+        protected override DbSet<SaleOrderEntity> DbSet {
+            get {
+                return _context.SaleOrders;
+            }
         }
 
         public List<SaleOrder> GetSaleOrders()
         {
-            return Map(_context.SaleOrders.ToList());
+            return GetAll();
         }
     }
 }

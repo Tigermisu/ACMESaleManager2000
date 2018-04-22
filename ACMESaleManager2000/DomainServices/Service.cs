@@ -23,7 +23,7 @@ namespace ACMESaleManager2000.DomainServices
         }
 
         public bool DeleteEntity(int Id) {
-            return false;
+            return _repository.DeleteEntity(Id);
         }
     }
 }

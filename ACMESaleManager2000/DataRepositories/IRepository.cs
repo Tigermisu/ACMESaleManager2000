@@ -8,8 +8,6 @@ namespace ACMESaleManager2000.DataRepositories
 
         bool EntityExists(int Id);
 
-        bool DeleteEntity(int Id) {
-
-        }
+        bool DeleteEntity(int Id);
     }
 }

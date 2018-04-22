@@ -102,23 +102,19 @@ namespace ACMESaleManager2000.Controllers
 
         // DELETE: api/PurchaseOrders/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePurchaseOrderEntity([FromRoute] int id)
+        public IActionResult DeletePurchaseOrderEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var purchaseOrderEntity = await _context.PurchaseOrders.SingleOrDefaultAsync(m => m.Id == id);
-            if (purchaseOrderEntity == null)
+            if (_purchaseOrderService.DeleteEntity(id))
             {
-                return NotFound();
+                return Ok();
             }
 
-            _context.PurchaseOrders.Remove(purchaseOrderEntity);
-            await _context.SaveChangesAsync();
-
-            return Ok(purchaseOrderEntity);
+            return NotFound();
         }
 
         private bool PurchaseOrderEntityExists(int id)
