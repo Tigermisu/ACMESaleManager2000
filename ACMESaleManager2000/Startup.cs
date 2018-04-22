@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using ACMESaleManager2000.Data;
 using ACMESaleManager2000.Models;
 using ACMESaleManager2000.Services;
+using ACMESaleManager2000.DomainServices;
+using ACMESaleManager2000.DataRepositories;
+using ACMESaleManager2000.DomainObjects;
+using ACMESaleManager2000.DataEntities;
 
 namespace ACMESaleManager2000
 {
@@ -35,6 +39,14 @@ namespace ACMESaleManager2000
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<ISaleOrderService, SaleOrderService>();
+            services.AddTransient<IPurchaseOrderService, PurchaseOrderService>();
+
+            services.AddTransient<IItemRepository, ItemRepository>();
+            services.AddTransient<ISaleOrderRepository, SaleOrderRepository>();
+            services.AddTransient<IPurchaseOrderRepository, PurchaseOrderRepository>();
 
             services.AddMvc();
         }
@@ -64,6 +76,12 @@ namespace ACMESaleManager2000
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            AutoMapper.Mapper.Initialize(cfg => {
+                cfg.CreateMap<ItemEntity, Item>();
+                cfg.CreateMap<PurchaseOrderEntity, PurchaseOrder>();
+                cfg.CreateMap<SaleOrderEntity, SaleOrder>();
             });
         }
 

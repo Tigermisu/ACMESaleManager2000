@@ -1,5 +1,6 @@
 ﻿using ACMESaleManager2000.Data;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ACMESaleManager2000.DataRepositories
 {
     abstract public class Repository<TDomainObject, TEntity> : IRepository<TDomainObject>
     {
-        protected ApplicationDbContext _context { get; }
+        protected readonly ApplicationDbContext _context;
 
         public Repository(ApplicationDbContext context)
         {
@@ -22,5 +23,7 @@ namespace ACMESaleManager2000.DataRepositories
         }
 
         public abstract List<TDomainObject> GetAll();
+
+        public abstract bool EntityExists(int Id);
     }
 }

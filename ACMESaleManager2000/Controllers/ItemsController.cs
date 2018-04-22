@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ACMESaleManager2000.Data;
 using ACMESaleManager2000.DataEntities;
+using ACMESaleManager2000.DomainServices;
+using ACMESaleManager2000.ViewModels;
+using AutoMapper;
 
 namespace ACMESaleManager2000.Controllers
 {
@@ -14,18 +17,18 @@ namespace ACMESaleManager2000.Controllers
     [Route("api/Items")]
     public class ItemsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IItemService _itemService;
 
-        public ItemsController(ApplicationDbContext context)
+        public ItemsController(IItemService itemService)
         {
-            _context = context;
+            _itemService = itemService;
         }
 
         // GET: api/Items
         [HttpGet]
-        public IEnumerable<ItemEntity> GetItems()
+        public IEnumerable<ItemViewModel> GetItems()
         {
-            return _context.Items;
+            return _itemService.GetAll().Select(i => Mapper.Map<ItemViewModel>(i));
         }
 
         // GET: api/Items/5
@@ -120,7 +123,7 @@ namespace ACMESaleManager2000.Controllers
 
         private bool ItemEntityExists(int id)
         {
-            return _context.Items.Any(e => e.Id == id);
+            return _itemService.EntityExists(id);
         }
     }
 }

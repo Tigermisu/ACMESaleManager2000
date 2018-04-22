@@ -5,8 +5,12 @@ using System.Threading.Tasks;
 
 namespace ACMESaleManager2000.DomainServices
 {
-    interface IService<TDomainObject>
+    public interface IService<TDomainObject>
     {
         List<TDomainObject> GetAll();
+
+        bool EntityExists(int Id);
+
+        bool DeleteEntity(int Id);
     }
 }

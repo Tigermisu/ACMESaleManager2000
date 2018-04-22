@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ACMESaleManager2000.Data;
 using ACMESaleManager2000.DataEntities;
+using ACMESaleManager2000.DomainServices;
+using AutoMapper;
+using ACMESaleManager2000.ViewModels;
 
 namespace ACMESaleManager2000.Controllers
 {
@@ -14,18 +17,18 @@ namespace ACMESaleManager2000.Controllers
     [Route("api/PurchaseOrders")]
     public class PurchaseOrdersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IPurchaseOrderService _purchaseOrderService;
 
-        public PurchaseOrdersController(ApplicationDbContext context)
+        public PurchaseOrdersController(IPurchaseOrderService purchaseOrderService)
         {
-            _context = context;
+            _purchaseOrderService = purchaseOrderService;
         }
 
         // GET: api/PurchaseOrders
         [HttpGet]
-        public IEnumerable<PurchaseOrderEntity> GetPurchaseOrders()
+        public IEnumerable<PurchaseOrderViewModel> GetPurchaseOrders()
         {
-            return _context.PurchaseOrders;
+            return _purchaseOrderService.GetAll().Select(p => Mapper.Map<PurchaseOrderViewModel>(p));
         }
 
         // GET: api/PurchaseOrders/5
@@ -120,7 +123,7 @@ namespace ACMESaleManager2000.Controllers
 
         private bool PurchaseOrderEntityExists(int id)
         {
-            return _context.PurchaseOrders.Any(e => e.Id == id);
+            return _purchaseOrderService.EntityExists(id);
         }
     }
 }

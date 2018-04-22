@@ -15,6 +15,11 @@ namespace ACMESaleManager2000.DataRepositories
         {
         }
 
+        public override bool EntityExists(int Id)
+        {
+            return _context.Items.Any(e => e.Id == Id);
+        }
+
         public override List<Item> GetAll() {
             return GetItems();
         }

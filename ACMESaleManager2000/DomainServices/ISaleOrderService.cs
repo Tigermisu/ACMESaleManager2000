@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ACMESaleManager2000.DomainServices
 {
-    interface ISaleOrderService : IService<SaleOrder>
+    public interface ISaleOrderService : IService<SaleOrder>
     {
     }
 }

@@ -17,5 +17,13 @@ namespace ACMESaleManager2000.DomainServices
         public List<TDomainObject> GetAll() {
             return _repository.GetAll();
         }
+
+        public bool EntityExists(int Id) {
+            return _repository.EntityExists(Id);
+        }
+
+        public bool DeleteEntity(int Id) {
+            return false;
+        }
     }
 }
