@@ -30,5 +30,9 @@ namespace ACMESaleManager2000.ViewModels
         public decimal SalePrice { get; set; }
 
         public string ImagePath { get; set; }
+
+        public string ProductCode { get {
+                return $"ACME-{Name.Substring(0, 3)}-{Description.Substring(0,3)}";
+            } }
     }
 }

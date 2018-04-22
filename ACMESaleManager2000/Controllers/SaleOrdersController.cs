@@ -10,6 +10,7 @@ using ACMESaleManager2000.DataEntities;
 using ACMESaleManager2000.DomainServices;
 using ACMESaleManager2000.ViewModels;
 using AutoMapper;
+using ACMESaleManager2000.DomainObjects;
 
 namespace ACMESaleManager2000.Controllers
 {
@@ -33,14 +34,14 @@ namespace ACMESaleManager2000.Controllers
 
         // GET: api/SaleOrders/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSaleOrderEntity([FromRoute] int id)
+        public IActionResult GetSaleOrderEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var saleOrderEntity = await _context.SaleOrders.SingleOrDefaultAsync(m => m.Id == id);
+            var saleOrderEntity = _saleOrderService.GetEntity(id);
 
             if (saleOrderEntity == null)
             {
@@ -52,7 +53,7 @@ namespace ACMESaleManager2000.Controllers
 
         // PUT: api/SaleOrders/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSaleOrderEntity([FromRoute] int id, [FromBody] SaleOrderEntity saleOrderEntity)
+        public IActionResult PutSaleOrderEntity([FromRoute] int id, [FromBody] SaleOrderEntity saleOrderEntity)
         {
             if (!ModelState.IsValid)
             {
@@ -64,38 +65,24 @@ namespace ACMESaleManager2000.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(saleOrderEntity).State = EntityState.Modified;
-
-            try
+            if (_saleOrderService.SaveModifiedEntity(saleOrderEntity))
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SaleOrderEntityExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NoContent();
             }
 
-            return NoContent();
+            return NotFound();
         }
 
         // POST: api/SaleOrders
         [HttpPost]
-        public async Task<IActionResult> PostSaleOrderEntity([FromBody] SaleOrderEntity saleOrderEntity)
+        public IActionResult PostSaleOrderEntity([FromBody] SaleOrderEntity saleOrderEntity)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.SaleOrders.Add(saleOrderEntity);
-            await _context.SaveChangesAsync();
+            _saleOrderService.CreateEntity(Mapper.Map<SaleOrder>(saleOrderEntity));
 
             return CreatedAtAction("GetSaleOrderEntity", new { id = saleOrderEntity.Id }, saleOrderEntity);
         }

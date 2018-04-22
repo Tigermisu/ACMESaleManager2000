@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-ACMESaleManager2000-A7FAB790-BA8A-4CA1-B05A-AA658824C5B4</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20180422220848_fixedPurchaseOrderRequiredKey.cs" />
+    <Compile Remove="Data\Migrations\20180422220848_fixedPurchaseOrderRequiredKey.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />

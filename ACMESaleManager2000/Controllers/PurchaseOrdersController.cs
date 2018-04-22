@@ -10,6 +10,7 @@ using ACMESaleManager2000.DataEntities;
 using ACMESaleManager2000.DomainServices;
 using AutoMapper;
 using ACMESaleManager2000.ViewModels;
+using ACMESaleManager2000.DomainObjects;
 
 namespace ACMESaleManager2000.Controllers
 {
@@ -33,14 +34,14 @@ namespace ACMESaleManager2000.Controllers
 
         // GET: api/PurchaseOrders/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPurchaseOrderEntity([FromRoute] int id)
+        public IActionResult GetPurchaseOrderEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var purchaseOrderEntity = await _context.PurchaseOrders.SingleOrDefaultAsync(m => m.Id == id);
+            var purchaseOrderEntity = _purchaseOrderService.GetEntity(id);
 
             if (purchaseOrderEntity == null)
             {
@@ -52,7 +53,7 @@ namespace ACMESaleManager2000.Controllers
 
         // PUT: api/PurchaseOrders/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPurchaseOrderEntity([FromRoute] int id, [FromBody] PurchaseOrderEntity purchaseOrderEntity)
+        public IActionResult PutPurchaseOrderEntity([FromRoute] int id, [FromBody] PurchaseOrderEntity purchaseOrderEntity)
         {
             if (!ModelState.IsValid)
             {
@@ -64,38 +65,24 @@ namespace ACMESaleManager2000.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(purchaseOrderEntity).State = EntityState.Modified;
-
-            try
+            if (_purchaseOrderService.SaveModifiedEntity(purchaseOrderEntity))
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PurchaseOrderEntityExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NoContent();
             }
 
-            return NoContent();
+            return NotFound();
         }
 
         // POST: api/PurchaseOrders
         [HttpPost]
-        public async Task<IActionResult> PostPurchaseOrderEntity([FromBody] PurchaseOrderEntity purchaseOrderEntity)
+        public IActionResult PostPurchaseOrderEntity([FromBody] PurchaseOrderEntity purchaseOrderEntity)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.PurchaseOrders.Add(purchaseOrderEntity);
-            await _context.SaveChangesAsync();
+            _purchaseOrderService.CreateEntity(Mapper.Map<PurchaseOrder>(purchaseOrderEntity));
 
             return CreatedAtAction("GetPurchaseOrderEntity", new { id = purchaseOrderEntity.Id }, purchaseOrderEntity);
         }

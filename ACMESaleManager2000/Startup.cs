@@ -15,6 +15,7 @@ using ACMESaleManager2000.DomainServices;
 using ACMESaleManager2000.DataRepositories;
 using ACMESaleManager2000.DomainObjects;
 using ACMESaleManager2000.DataEntities;
+using ACMESaleManager2000.ViewModels;
 
 namespace ACMESaleManager2000
 {
@@ -45,8 +46,13 @@ namespace ACMESaleManager2000
             services.AddTransient<IPurchaseOrderService, PurchaseOrderService>();
 
             services.AddTransient<IItemRepository, ItemRepository>();
+            services.AddTransient<IRepository<Item>, ItemRepository>();
+
             services.AddTransient<ISaleOrderRepository, SaleOrderRepository>();
+            services.AddTransient<IRepository<SaleOrder>, SaleOrderRepository>();
+
             services.AddTransient<IPurchaseOrderRepository, PurchaseOrderRepository>();
+            services.AddTransient<IRepository<PurchaseOrder>, PurchaseOrderRepository>();
 
             services.AddMvc();
         }
@@ -82,6 +88,18 @@ namespace ACMESaleManager2000
                 cfg.CreateMap<ItemEntity, Item>();
                 cfg.CreateMap<PurchaseOrderEntity, PurchaseOrder>();
                 cfg.CreateMap<SaleOrderEntity, SaleOrder>();
+
+                cfg.CreateMap<PurchaseOrder, PurchaseOrderEntity>();
+                cfg.CreateMap<SaleOrder, SaleOrderEntity>();
+                cfg.CreateMap<Item, ItemEntity>();
+
+                cfg.CreateMap<SaleOrderViewModel, SaleOrder>();
+                cfg.CreateMap<PurchaseOrderViewModel, PurchaseOrder>();
+                cfg.CreateMap<ItemViewModel, Item>();
+
+                cfg.CreateMap<SaleOrder, SaleOrderViewModel>();
+                cfg.CreateMap<PurchaseOrder, PurchaseOrderViewModel>();
+                cfg.CreateMap<Item, ItemViewModel>();
             });
         }
 
@@ -91,10 +109,12 @@ namespace ACMESaleManager2000
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var defaultUsersSection = Configuration.GetSection("DefaultUsers");
             string[] roleNames = { "Admin", "Supervisor", "User" };
+            string[] users = { "admin", "supervisor", "user" };
             IdentityResult roleResult;
 
-            foreach (var roleName in roleNames)
+            foreach (string roleName in roleNames)
             {
                 var roleExist = await RoleManager.RoleExistsAsync(roleName);
                 if (!roleExist)
@@ -103,23 +123,27 @@ namespace ACMESaleManager2000
                 }
             }
 
-            var _user = await UserManager.FindByEmailAsync(Configuration["AdminUserEmail"]);           
+            foreach (string userName in users) {
 
-            if (_user == null)
-            {
-                var poweruser = new ApplicationUser
+                var _user = await UserManager.FindByEmailAsync(defaultUsersSection[userName]);
+
+                if (_user == null)
                 {
+                    var newUser = new ApplicationUser
+                    {
 
-                    UserName = Configuration["AdminUserName"],
-                    Email = Configuration["AdminUserEmail"],
-                };
+                        UserName = defaultUsersSection[userName],
+                        Email = defaultUsersSection[userName],
+                    };
 
-                string userPWD = Configuration["AdminUserPassword"];
+                    string userPWD = defaultUsersSection["password"];
 
-                var createPowerUser = await UserManager.CreateAsync(poweruser, userPWD);
-                if (createPowerUser.Succeeded)
-                {
-                    await UserManager.AddToRoleAsync(poweruser, "Admin");
+                    var createNewUser = await UserManager.CreateAsync(newUser, userPWD);
+                    if (createNewUser.Succeeded)
+                    {
+                        string roleName = userName.First().ToString().ToUpper() + userName.Substring(1);
+                        await UserManager.AddToRoleAsync(newUser, roleName);
+                    }
                 }
             }
         }

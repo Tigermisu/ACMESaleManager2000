@@ -9,13 +9,18 @@ using System.Threading.Tasks;
 
 namespace ACMESaleManager2000.DataRepositories
 {
-    abstract public class Repository<TDomainObject, TEntity> : IRepository<TDomainObject> where TEntity : class, IEntity
+    public abstract class Repository<TDomainObject, TEntity> : IRepository<TDomainObject> where TEntity : class, IEntity
     {
         protected readonly ApplicationDbContext _context;
 
         public Repository(ApplicationDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
+        protected TDomainObject Map(TEntity entity)
+        {
+            return Mapper.Map<TDomainObject>(entity);
         }
 
         protected List<TDomainObject> Map(List<TEntity> entities)
@@ -45,6 +50,38 @@ namespace ACMESaleManager2000.DataRepositories
             _context.SaveChanges();
 
             return true;
+        }
+
+        public TDomainObject GetEntity(int Id)
+        {
+            return Map(DbSet.SingleOrDefault(m => m.Id == Id));
+        }
+
+        public bool SaveModifiedEntity(IEntity entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException) {
+                if (!EntityExists(entity.Id))
+                {
+                    return false;
+                }
+                else {
+                    throw;
+                }
+            }
+
+            return true;
+        }
+
+        public void CreateEntity(TDomainObject entity)
+        {
+            DbSet.Add(Mapper.Map<TEntity>(entity));
+            _context.SaveChanges();
         }
     }
 }

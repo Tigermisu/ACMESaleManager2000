@@ -1,4 +1,5 @@
-﻿using ACMESaleManager2000.DataRepositories;
+﻿using ACMESaleManager2000.DataEntities;
+using ACMESaleManager2000.DataRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +19,24 @@ namespace ACMESaleManager2000.DomainServices
             return _repository.GetAll();
         }
 
+        public TDomainObject GetEntity(int Id) {
+            return _repository.GetEntity(Id);
+        }
+
+        public bool SaveModifiedEntity(IEntity entity) {
+            return _repository.SaveModifiedEntity(entity);
+        }
+
         public bool EntityExists(int Id) {
             return _repository.EntityExists(Id);
         }
 
         public bool DeleteEntity(int Id) {
             return _repository.DeleteEntity(Id);
+        }
+
+        public void CreateEntity(TDomainObject entity) {
+            _repository.CreateEntity(entity);
         }
     }
 }

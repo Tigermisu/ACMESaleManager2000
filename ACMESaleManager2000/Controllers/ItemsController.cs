@@ -10,6 +10,7 @@ using ACMESaleManager2000.DataEntities;
 using ACMESaleManager2000.DomainServices;
 using ACMESaleManager2000.ViewModels;
 using AutoMapper;
+using ACMESaleManager2000.DomainObjects;
 
 namespace ACMESaleManager2000.Controllers
 {
@@ -33,14 +34,14 @@ namespace ACMESaleManager2000.Controllers
 
         // GET: api/Items/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetItemEntity([FromRoute] int id)
+        public IActionResult GetItemEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var itemEntity = await _context.Items.SingleOrDefaultAsync(m => m.Id == id);
+            var itemEntity = _itemService.GetEntity(id);
 
             if (itemEntity == null)
             {
@@ -52,7 +53,7 @@ namespace ACMESaleManager2000.Controllers
 
         // PUT: api/Items/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutItemEntity([FromRoute] int id, [FromBody] ItemEntity itemEntity)
+        public IActionResult PutItemEntity([FromRoute] int id, [FromBody] ItemEntity itemEntity)
         {
             if (!ModelState.IsValid)
             {
@@ -64,38 +65,24 @@ namespace ACMESaleManager2000.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(itemEntity).State = EntityState.Modified;
-
-            try
+            if (_itemService.SaveModifiedEntity(itemEntity))
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ItemEntityExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NoContent();
             }
 
-            return NoContent();
+            return NotFound();
         }
 
         // POST: api/Items
         [HttpPost]
-        public async Task<IActionResult> PostItemEntity([FromBody] ItemEntity itemEntity)
+        public IActionResult PostItemEntity([FromBody] ItemEntity itemEntity)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Items.Add(itemEntity);
-            await _context.SaveChangesAsync();
+            _itemService.CreateEntity(Mapper.Map<Item>(itemEntity));
 
             return CreatedAtAction("GetItemEntity", new { id = itemEntity.Id }, itemEntity);
         }
