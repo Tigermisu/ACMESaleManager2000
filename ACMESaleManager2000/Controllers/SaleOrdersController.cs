@@ -53,7 +53,7 @@ namespace ACMESaleManager2000.Controllers
 
         // PUT: api/SaleOrders/5
         [HttpPut("{id}")]
-        public IActionResult PutSaleOrderEntity([FromRoute] int id, [FromBody] SaleOrderEntity saleOrderEntity)
+        public IActionResult PutSaleOrderEntity([FromRoute] int id, [FromBody] SaleOrderViewModel saleOrderEntity)
         {
             if (!ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace ACMESaleManager2000.Controllers
                 return BadRequest();
             }
 
-            if (_saleOrderService.SaveModifiedEntity(saleOrderEntity))
+            if (_saleOrderService.SaveModifiedEntity(Mapper.Map<SaleOrderEntity>(saleOrderEntity)))
             {
                 return NoContent();
             }
@@ -75,7 +75,7 @@ namespace ACMESaleManager2000.Controllers
 
         // POST: api/SaleOrders
         [HttpPost]
-        public IActionResult PostSaleOrderEntity([FromBody] SaleOrderEntity saleOrderEntity)
+        public IActionResult PostSaleOrderEntity([FromBody] SaleOrderViewModel saleOrderEntity)
         {
             if (!ModelState.IsValid)
             {

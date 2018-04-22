@@ -9,8 +9,11 @@ namespace ACMESaleManager2000.DomainServices
 {
     public class PurchaseOrderService : Service<PurchaseOrder>, IPurchaseOrderService
     {
-        public PurchaseOrderService(IRepository<PurchaseOrder> repository) : base(repository)
+        protected readonly IRepository<Item> _itemRepository;
+
+        public PurchaseOrderService(IRepository<PurchaseOrder> repository, IRepository<Item> itemRepository) : base(repository)
         {
+            _itemRepository = itemRepository ?? throw new ArgumentNullException(nameof(itemRepository));
         }
     }
 }

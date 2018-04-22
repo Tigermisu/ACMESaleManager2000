@@ -53,7 +53,7 @@ namespace ACMESaleManager2000.Controllers
 
         // PUT: api/Items/5
         [HttpPut("{id}")]
-        public IActionResult PutItemEntity([FromRoute] int id, [FromBody] ItemEntity itemEntity)
+        public IActionResult PutItemEntity([FromRoute] int id, [FromBody] ItemViewModel itemEntity)
         {
             if (!ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace ACMESaleManager2000.Controllers
                 return BadRequest();
             }
 
-            if (_itemService.SaveModifiedEntity(itemEntity))
+            if (_itemService.SaveModifiedEntity(Mapper.Map<ItemEntity>(itemEntity)))
             {
                 return NoContent();
             }
@@ -75,7 +75,7 @@ namespace ACMESaleManager2000.Controllers
 
         // POST: api/Items
         [HttpPost]
-        public IActionResult PostItemEntity([FromBody] ItemEntity itemEntity)
+        public IActionResult PostItemEntity([FromBody] ItemViewModel itemEntity)
         {
             if (!ModelState.IsValid)
             {

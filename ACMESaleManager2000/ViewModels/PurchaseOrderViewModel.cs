@@ -16,9 +16,9 @@ namespace ACMESaleManager2000.ViewModels
         [Required]
         public DateTime DateOfPurchase { get; set; } = DateTime.Now;
 
+        [Required]
         public int ItemEntityId { get; set; }
 
-        [Required]
         [ForeignKey("ItemEntityId")]
         public ItemEntity PurchasedItem { get; set; }
 

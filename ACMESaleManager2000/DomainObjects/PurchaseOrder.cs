@@ -11,6 +11,8 @@ namespace ACMESaleManager2000.DomainObjects
         
         public DateTime DateOfPurchase { get; set; } = DateTime.Now;
 
+        public int ItemEntityId { get; set; }
+
         public Item PurchasedItem { get; set; }
 
         public int PurchasedQuantity { get; set; }
