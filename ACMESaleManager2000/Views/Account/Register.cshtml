@@ -1,15 +1,23 @@
 ﻿@model RegisterViewModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Join now!";
 }
 
-<h2>@ViewData["Title"]</h2>
-
+<h1 class="acme sm">Create ACMESECURE&copy; Account</h1>
 <div class="row">
+    <div class="col-md-8">
+        <h2>Are you ready!?</h2>
+        <section>
+            <hr />
+            <p class="intro">Begin now your ultimate trial of ACMESaleManager2000&copy; and increase your sales by a factor of <b>INFINITY</b>. Join the great succcess of the world's most wealthy and famous personalities such as Emma Webster and Yosemite Sam by embracing ACMESALEMANAGER2000&copy; at once!</p>
+            <p class="intro"><i>"I compfletely defintrefgrated my compfetition witfh ACMESaleManager2000&copy;"</i> -Daffy D. Duck</p>
+        </section>
+    </div>
     <div class="col-md-4">
         <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-            <h4>Create a new account.</h4>
+            <h2>&nbsp;</h2>
             <hr />
+            <h4>Create a new ACMESECURE&copy; account to begin.</h4>
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Email"></label>

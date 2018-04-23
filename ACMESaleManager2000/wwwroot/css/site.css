@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #d63031;
 }
 
 /* Wrapping element */
@@ -26,10 +27,51 @@
     margin: 15px;
 }
 
+.navbar-inverse {
+    background-color: #d63031;
+    border-color: #d63031;
+    color: #fff;
+}
+
+.navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav > li > a, h2, p, label, h4, h1 {
+    color: #fff;
+}
+
+    p.intro {
+        text-align: center;
+        font-size: 23px;
+        line-height: 40px;
+        margin-top: 50px;
+    }
+
+a {
+    color: #ffeaa7;
+}
+
+    a:hover, a:focus {
+        color: #fdcb6e
+    }
+
+h1.acme {
+    font-size: 104px;
+    font-weight: 800;
+    text-align: center;
+}
+
+    h1.acme.sm {
+        font-size: 64px;
+    }
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
     .carousel-caption {
         display: none;
+    }
+
+    h1.acme {
+        font-size: 48px;
+        font-weight: 800;
+        text-align: center;
     }
 }
