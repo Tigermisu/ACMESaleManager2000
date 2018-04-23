@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace ACMESaleManager2000.DataRepositories
 {
-    interface IItemRepository
+    public interface IItemRepository
     {
         List<Item> GetItems();
 
         List<Item> GetLowStockItems(int stockThreshold);
 
         List<Item> GetPopularItems(int saleThreshold);
+
+        void ModifyStock(int itemId, int delta);
     }
 }

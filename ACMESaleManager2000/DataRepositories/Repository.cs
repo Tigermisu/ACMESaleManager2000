@@ -52,9 +52,14 @@ namespace ACMESaleManager2000.DataRepositories
             return true;
         }
 
+        protected TEntity GetEntityRaw(int Id)
+        {
+            return DbSet.SingleOrDefault(m => m.Id == Id);
+        }
+
         public TDomainObject GetEntity(int Id)
         {
-            return Map(DbSet.SingleOrDefault(m => m.Id == Id));
+            return Map(GetEntityRaw(Id));
         }
 
         public bool SaveModifiedEntity(IEntity entity)

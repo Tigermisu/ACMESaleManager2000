@@ -8,5 +8,6 @@ namespace ACMESaleManager2000.DomainServices
 {
     public interface IPurchaseOrderService : IService<PurchaseOrder>
     {
+        void AddToItemInventory(int itemId, int quantity);
     }
 }

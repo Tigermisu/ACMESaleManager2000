@@ -22,7 +22,7 @@ namespace ACMESaleManager2000.DataRepositories
         }
 
         public override List<PurchaseOrder> GetAll() {
-            return Map(DbSet.Include(p => p.PurchasedItems).ToList(););
+            return Map(DbSet.Include(p => p.PurchasedItems).ToList());
         }
 
         public List<PurchaseOrder> GetPurchaseOrders()

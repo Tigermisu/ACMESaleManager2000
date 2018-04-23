@@ -9,11 +9,15 @@ namespace ACMESaleManager2000.DomainServices
 {
     public class PurchaseOrderService : Service<PurchaseOrder>, IPurchaseOrderService
     {
-        protected readonly IRepository<Item> _itemRepository;
+        protected readonly IItemRepository _itemRepository;
 
-        public PurchaseOrderService(IRepository<PurchaseOrder> repository, IRepository<Item> itemRepository) : base(repository)
+        public PurchaseOrderService(IRepository<PurchaseOrder> repository, IItemRepository itemRepository) : base(repository)
         {
             _itemRepository = itemRepository ?? throw new ArgumentNullException(nameof(itemRepository));
+        }
+
+        public void AddToItemInventory(int itemId, int quantity) {
+            _itemRepository.ModifyStock(itemId, quantity);
         }
     }
 }

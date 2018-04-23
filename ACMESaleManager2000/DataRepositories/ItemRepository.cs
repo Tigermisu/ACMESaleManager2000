@@ -35,5 +35,16 @@ namespace ACMESaleManager2000.DataRepositories
         {
             throw new NotImplementedException();
         }
+
+        public void ModifyStock(int itemId, int delta)
+        {
+            var item = GetEntityRaw(itemId) ?? throw new ArgumentNullException(nameof(itemId));
+
+            item.QuantityAvailable += delta;
+
+            _context.Entry(item).State = EntityState.Modified;
+
+            _context.SaveChanges();
+        }
     }
 }

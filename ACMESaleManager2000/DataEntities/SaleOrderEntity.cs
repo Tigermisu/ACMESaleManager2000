@@ -16,7 +16,7 @@ namespace ACMESaleManager2000.DataEntities
         public DateTime DateOfSale { get; set; } = DateTime.Now;
 
         [Required]
-        public virtual ICollection<ItemSaleOrderEntity> SoldItems { get; } = new List<ItemSaleOrderEntity>();
+        public virtual ICollection<ItemSaleOrderEntity> SoldItems { get; set; }
 
         public string ClientName { get; set; }
     }
