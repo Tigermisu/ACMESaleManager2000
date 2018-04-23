@@ -17,7 +17,7 @@ namespace ACMESaleManager2000.ViewModels
         public DateTime DateOfPurchase { get; set; } = DateTime.Now;
 
         [Required]
-        public virtual ICollection<ItemPurchaseOrder> PurchasedItems { get; } = new List<ItemPurchaseOrder>();
+        public virtual ICollection<ItemPurchaseOrderViewModel> PurchasedItems { get; set; }
 
         public string Description { get; set; }
     }

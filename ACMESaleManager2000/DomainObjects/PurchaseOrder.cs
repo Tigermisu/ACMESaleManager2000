@@ -14,6 +14,6 @@ namespace ACMESaleManager2000.DomainObjects
 
         public string Description { get; set; }
 
-        public virtual ICollection<ItemPurchaseOrder> PurchasedItems { get; } = new List<ItemPurchaseOrder>();
+        public virtual ICollection<ItemPurchaseOrder> PurchasedItems { get; set; }
     }
 }

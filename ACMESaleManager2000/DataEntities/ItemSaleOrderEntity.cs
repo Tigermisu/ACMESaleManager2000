@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace ACMESaleManager2000.DataEntities
 {
-    public class ItemPurchaseOrder
+    public class ItemSaleOrderEntity
     {
         public int ItemEntityId { get; set; }
 
         [ForeignKey("ItemEntityId")]
         public ItemEntity Item { get; set; }
 
-        public int PurchaseOrderEntityId { get; set; }
+        public int SaleOrderEntityId { get; set; }
 
-        [ForeignKey("PurchaseOrderEntityId")]
-        public PurchaseOrderEntity PurchaseOrder { get; set; }
+        [ForeignKey("SaleOrderEntityId")]
+        public SaleOrderEntity SaleOrder { get; set; }
 
         [Required]
         [Range(0, int.MaxValue)]
-        public int PurchasedQuantity { get; set; }
+        public int SoldQuantity { get; set; }
 
         [Required]
         [Range(0, Double.MaxValue)]
-        public decimal PurchasedPrice { get; set; }
+        public decimal SoldPrice { get; set; }
     }
 }

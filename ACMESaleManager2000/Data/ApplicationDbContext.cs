@@ -24,29 +24,29 @@ namespace ACMESaleManager2000.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<ItemPurchaseOrder>()
+            builder.Entity<ItemPurchaseOrderEntity>()
                 .HasKey(ip => new { ip.ItemEntityId, ip.PurchaseOrderEntityId });
 
-            builder.Entity<ItemPurchaseOrder>()
+            builder.Entity<ItemPurchaseOrderEntity>()
                 .HasOne(ip => ip.Item)
                 .WithMany(i => i.Purchases)
                 .HasForeignKey(ip => ip.ItemEntityId);
 
-            builder.Entity<ItemPurchaseOrder>()
+            builder.Entity<ItemPurchaseOrderEntity>()
                 .HasOne(ip => ip.PurchaseOrder)
                 .WithMany(p => p.PurchasedItems)
                 .HasForeignKey(ip => ip.PurchaseOrderEntityId);
 
 
-            builder.Entity<ItemSaleOrder>()
+            builder.Entity<ItemSaleOrderEntity>()
                 .HasKey(ip => new { ip.ItemEntityId, ip.SaleOrderEntityId });
 
-            builder.Entity<ItemSaleOrder>()
+            builder.Entity<ItemSaleOrderEntity>()
                 .HasOne(ip => ip.Item)
                 .WithMany(i => i.Sales)
                 .HasForeignKey(ip => ip.ItemEntityId);
 
-            builder.Entity<ItemSaleOrder>()
+            builder.Entity<ItemSaleOrderEntity>()
                 .HasOne(ip => ip.SaleOrder)
                 .WithMany(p => p.SoldItems)
                 .HasForeignKey(ip => ip.SaleOrderEntityId);

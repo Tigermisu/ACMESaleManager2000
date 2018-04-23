@@ -30,9 +30,9 @@ namespace ACMESaleManager2000.DataEntities
         [Range(0, Double.MaxValue)]
         public decimal SalePrice { get; set; }
         
-        public virtual ICollection<ItemPurchaseOrder> Purchases { get; set; }
+        public virtual ICollection<ItemPurchaseOrderEntity> Purchases { get; set; }
         
-        public virtual ICollection<ItemSaleOrder> Sales { get; set; }
+        public virtual ICollection<ItemSaleOrderEntity> Sales { get; set; }
 
         public string ImagePath { get; set; }
     }

@@ -32,9 +32,9 @@ namespace ACMESaleManager2000.ViewModels
 
         public string ImagePath { get; set; }
 
-        public virtual ICollection<ItemPurchaseOrder> Purchases { get; set; }
+        public virtual ICollection<ItemPurchaseOrderViewModel> Purchases { get; set; }
 
-        public virtual ICollection<ItemSaleOrder> Sales { get; set; }
+        public virtual ICollection<ItemSaleOrderViewModel> Sales { get; set; }
 
         public string ProductCode { get {
                 return $"ACME-{Name.Substring(0, 3)}-{Description.Substring(0,3)}";
