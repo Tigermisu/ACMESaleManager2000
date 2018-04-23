@@ -84,6 +84,11 @@ namespace ACMESaleManager2000.Controllers
 
             _saleOrderService.CreateEntity(Mapper.Map<SaleOrder>(saleOrderEntity));
 
+            foreach (var s in saleOrderEntity.SoldItems)
+            {
+                _saleOrderService.SubtractFromItemInventory(s.ItemEntityId, s.SoldQuantity);
+            }
+
             return CreatedAtAction("GetSaleOrderEntity", new { id = saleOrderEntity.Id }, saleOrderEntity);
         }
 

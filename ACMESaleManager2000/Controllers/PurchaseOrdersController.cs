@@ -84,6 +84,10 @@ namespace ACMESaleManager2000.Controllers
 
             _purchaseOrderService.CreateEntity(Mapper.Map<PurchaseOrder>(purchaseOrderEntity));
 
+            foreach (var p in purchaseOrderEntity.PurchasedItems) {
+                _purchaseOrderService.AddToItemInventory(p.ItemEntityId, p.PurchasedQuantity);
+            }
+
             return CreatedAtAction("GetPurchaseOrderEntity", new { id = purchaseOrderEntity.Id }, purchaseOrderEntity);
         }
 

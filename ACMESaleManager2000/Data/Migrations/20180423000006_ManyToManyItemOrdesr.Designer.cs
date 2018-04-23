@@ -11,9 +11,10 @@ using System;
 namespace ACMESaleManager2000.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180423000006_ManyToManyItemOrdesr")]
+    partial class ManyToManyItemOrdesr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +45,7 @@ namespace ACMESaleManager2000.Data.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("ACMESaleManager2000.DataEntities.ItemPurchaseOrderEntity", b =>
+            modelBuilder.Entity("ACMESaleManager2000.DataEntities.ItemPurchaseOrder", b =>
                 {
                     b.Property<int>("ItemEntityId");
 
@@ -58,10 +59,10 @@ namespace ACMESaleManager2000.Data.Migrations
 
                     b.HasIndex("PurchaseOrderEntityId");
 
-                    b.ToTable("ItemPurchaseOrderEntity");
+                    b.ToTable("ItemPurchaseOrder");
                 });
 
-            modelBuilder.Entity("ACMESaleManager2000.DataEntities.ItemSaleOrderEntity", b =>
+            modelBuilder.Entity("ACMESaleManager2000.DataEntities.ItemSaleOrder", b =>
                 {
                     b.Property<int>("ItemEntityId");
 
@@ -75,7 +76,7 @@ namespace ACMESaleManager2000.Data.Migrations
 
                     b.HasIndex("SaleOrderEntityId");
 
-                    b.ToTable("ItemSaleOrderEntity");
+                    b.ToTable("ItemSaleOrder");
                 });
 
             modelBuilder.Entity("ACMESaleManager2000.DataEntities.PurchaseOrderEntity", b =>
@@ -265,7 +266,7 @@ namespace ACMESaleManager2000.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ACMESaleManager2000.DataEntities.ItemPurchaseOrderEntity", b =>
+            modelBuilder.Entity("ACMESaleManager2000.DataEntities.ItemPurchaseOrder", b =>
                 {
                     b.HasOne("ACMESaleManager2000.DataEntities.ItemEntity", "Item")
                         .WithMany("Purchases")
@@ -278,7 +279,7 @@ namespace ACMESaleManager2000.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ACMESaleManager2000.DataEntities.ItemSaleOrderEntity", b =>
+            modelBuilder.Entity("ACMESaleManager2000.DataEntities.ItemSaleOrder", b =>
                 {
                     b.HasOne("ACMESaleManager2000.DataEntities.ItemEntity", "Item")
                         .WithMany("Sales")

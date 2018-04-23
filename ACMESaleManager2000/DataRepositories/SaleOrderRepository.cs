@@ -21,6 +21,11 @@ namespace ACMESaleManager2000.DataRepositories
             }
         }
 
+        public override List<SaleOrder> GetAll()
+        {
+            return Map(DbSet.Include(s => s.SoldItems).ToList());
+        }
+
         public List<SaleOrder> GetSaleOrders()
         {
             return GetAll();

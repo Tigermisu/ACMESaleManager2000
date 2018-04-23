@@ -17,14 +17,7 @@ namespace ACMESaleManager2000.ViewModels
         public DateTime DateOfPurchase { get; set; } = DateTime.Now;
 
         [Required]
-        public int ItemEntityId { get; set; }
-
-        [ForeignKey("ItemEntityId")]
-        public ItemEntity PurchasedItem { get; set; }
-
-        [Required]
-        [Range(0, int.MaxValue)]
-        public int PurchasedQuantity { get; set; }
+        public virtual ICollection<ItemPurchaseOrderViewModel> PurchasedItems { get; set; }
 
         public string Description { get; set; }
     }

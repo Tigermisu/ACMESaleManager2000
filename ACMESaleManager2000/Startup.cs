@@ -85,21 +85,32 @@ namespace ACMESaleManager2000
             });
 
             AutoMapper.Mapper.Initialize(cfg => {
-                cfg.CreateMap<ItemEntity, Item>();
-                cfg.CreateMap<PurchaseOrderEntity, PurchaseOrder>();
-                cfg.CreateMap<SaleOrderEntity, SaleOrder>();
+                cfg.CreateMap<ItemEntity, Item>().MaxDepth(1);
+                cfg.CreateMap<PurchaseOrderEntity, PurchaseOrder>().MaxDepth(1);
+                cfg.CreateMap<SaleOrderEntity, SaleOrder>().MaxDepth(1);
 
-                cfg.CreateMap<PurchaseOrder, PurchaseOrderEntity>();
-                cfg.CreateMap<SaleOrder, SaleOrderEntity>();
-                cfg.CreateMap<Item, ItemEntity>();
+                cfg.CreateMap<Item, ItemEntity>().MaxDepth(1);
+                cfg.CreateMap<PurchaseOrder, PurchaseOrderEntity>().MaxDepth(1);
+                cfg.CreateMap<SaleOrder, SaleOrderEntity>().MaxDepth(1);
 
-                cfg.CreateMap<SaleOrderViewModel, SaleOrder>();
-                cfg.CreateMap<PurchaseOrderViewModel, PurchaseOrder>();
-                cfg.CreateMap<ItemViewModel, Item>();
+                cfg.CreateMap<SaleOrderViewModel, SaleOrder>().MaxDepth(1);
+                cfg.CreateMap<PurchaseOrderViewModel, PurchaseOrder>().MaxDepth(1);
+                cfg.CreateMap<ItemViewModel, Item>().MaxDepth(1);
 
-                cfg.CreateMap<SaleOrder, SaleOrderViewModel>();
-                cfg.CreateMap<PurchaseOrder, PurchaseOrderViewModel>();
-                cfg.CreateMap<Item, ItemViewModel>();
+                cfg.CreateMap<SaleOrder, SaleOrderViewModel>().MaxDepth(1);
+                cfg.CreateMap<PurchaseOrder, PurchaseOrderViewModel>().MaxDepth(1);
+                cfg.CreateMap<Item, ItemViewModel>().MaxDepth(1);
+
+
+                cfg.CreateMap<ItemPurchaseOrderEntity, ItemPurchaseOrder>().MaxDepth(1);
+                cfg.CreateMap<ItemSaleOrderEntity, ItemSaleOrder>().MaxDepth(1);
+                cfg.CreateMap<ItemPurchaseOrder, ItemPurchaseOrderViewModel>().MaxDepth(1);
+                cfg.CreateMap<ItemSaleOrder, ItemSaleOrderViewModel>().MaxDepth(1);
+
+                cfg.CreateMap<ItemPurchaseOrder, ItemPurchaseOrderEntity>().MaxDepth(1);
+                cfg.CreateMap<ItemSaleOrder, ItemSaleOrderEntity>().MaxDepth(1);
+                cfg.CreateMap<ItemPurchaseOrderViewModel, ItemPurchaseOrder>().MaxDepth(1);
+                cfg.CreateMap<ItemSaleOrderViewModel, ItemSaleOrder>().MaxDepth(1);
             });
         }
 
