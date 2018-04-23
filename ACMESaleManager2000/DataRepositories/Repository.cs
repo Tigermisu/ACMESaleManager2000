@@ -30,7 +30,7 @@ namespace ACMESaleManager2000.DataRepositories
 
         abstract protected DbSet<TEntity> DbSet { get; }
 
-        public List<TDomainObject> GetAll() {
+        public virtual List<TDomainObject> GetAll() {
             return Map(DbSet.ToList());
         }
 

@@ -16,14 +16,7 @@ namespace ACMESaleManager2000.DataEntities
         public DateTime DateOfSale { get; set; } = DateTime.Now;
 
         [Required]
-        public int ItemEntityId { get; set; }
-
-        [ForeignKey("ItemEntityId")]
-        public ItemEntity SoldItem { get; set; }
-
-        [Required]
-        [Range(0, int.MaxValue)]
-        public int SoldQuantity { get; set; }
+        public virtual ICollection<ItemSaleOrder> SoldItems { get; } = new List<ItemSaleOrder>();
 
         public string ClientName { get; set; }
     }

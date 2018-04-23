@@ -11,9 +11,10 @@ using System;
 namespace ACMESaleManager2000.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180423000006_ManyToManyItemOrdesr")]
+    partial class ManyToManyItemOrdesr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

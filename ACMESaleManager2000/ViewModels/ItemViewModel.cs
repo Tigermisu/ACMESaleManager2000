@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ACMESaleManager2000.DataEntities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,6 +31,10 @@ namespace ACMESaleManager2000.ViewModels
         public decimal SalePrice { get; set; }
 
         public string ImagePath { get; set; }
+
+        public virtual ICollection<ItemPurchaseOrder> Purchases { get; set; }
+
+        public virtual ICollection<ItemSaleOrder> Sales { get; set; }
 
         public string ProductCode { get {
                 return $"ACME-{Name.Substring(0, 3)}-{Description.Substring(0,3)}";
