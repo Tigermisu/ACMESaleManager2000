@@ -21,9 +21,5 @@ namespace ACMESaleManager2000.DomainObjects
         public decimal SalePrice { get; set; }
 
         public string ImagePath { get; set; }
-
-        public virtual ICollection<ItemPurchaseOrder> Purchases { get; set; }
-
-        public virtual ICollection<ItemSaleOrder> Sales { get; set; }
     }
 }
