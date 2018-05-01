@@ -102,6 +102,10 @@ ul.nav-tabs {
     margin-bottom: -20px;
 }
 
+.simple-crud * {
+    color: #333;
+}
+
 @media screen and (min-width: 767px) {
     /* Hide captions */
     .content {

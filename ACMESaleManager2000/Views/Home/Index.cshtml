@@ -1,47 +1,36 @@
-﻿<div id="navigation">
-    <div>
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#dashboard" aria-controls="dashboard" role="tab" data-toggle="tab">Dashboard</a></li>
-            <li role="presentation"><a href="#saleOrder" aria-controls="saleOrder" role="tab" data-toggle="tab">Create Sale Order</a></li>
-            <template v-if="canAccessAdmin">
-                <li role="presentation"><a href="#saleManagement" aria-controls="saleManagement" role="tab" data-toggle="tab">Sale Management</a></li>
-                <li role="presentation"><a href="#purchaseManagement" aria-controls="purchaseManagement" role="tab" data-toggle="tab">Purchase Management</a></li>
-                <li role="presentation"><a href="#itemManagement" aria-controls="itemManagement" role="tab" data-toggle="tab">Item Management</a></li>
-            </template>
-        </ul>
-    </div>
-</div>
+﻿<div id="app">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#dashboard" aria-controls="dashboard" role="tab" data-toggle="tab">Dashboard</a></li>
+        <li role="presentation"><a href="#saleOrder" aria-controls="saleOrder" role="tab" data-toggle="tab">Create Sale Order</a></li>
+        <template v-if="canAccessAdmin">
+            <li role="presentation"><a href="#purchaseOrder" aria-controls="purchaseOrder" role="tab" data-toggle="tab">Create Purchase Order</a></li>
+            <li role="presentation"><a href="#saleManagement" aria-controls="saleManagement" role="tab" data-toggle="tab">Sale Management</a></li>
+            <li role="presentation"><a href="#purchaseManagement" aria-controls="purchaseManagement" role="tab" data-toggle="tab">Purchase Management</a></li>
+            <li role="presentation"><a href="#itemManagement" aria-controls="itemManagement" role="tab" data-toggle="tab">Item Management</a></li>
+        </template>
+    </ul>
 
-<div class="tab-content">
-    <div role="tabpanel" class="tab-pane fade in active" id="dashboard">
-        I am the dashboard!
-    </div>
-    <div role="tabpanel" class="tab-pane fade" id="saleOrder">
-        I am the sale order creation!
-    </div>
-    <div role="tabpanel" class="tab-pane fade" id="saleManagement">
-        I am the sale management tab!
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="dashboard">
+            I am the dashboard!
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="saleOrder">
+            I am the sale order creation!
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="purchaseOrder">
+            I am the purchase order creation!
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="saleManagement">
+            I am the sale management tab!
 
-    </div>
-    <div role="tabpanel" class="tab-pane fade" id="purchaseManagement">
-        I am the purchase management tab!
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="purchaseManagement">
+            I am the purchase management tab!
 
-    </div>
-    <div role="tabpanel" class="tab-pane fade" id="itemManagement">
-        <table class="crud">
-            <thead>
-                <tr>
-                    <th>Hello</th>
-                    <th>World</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.description }}</td>
-                </tr>
-            </tbody>
-        </table>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="itemManagement">
+            <simple-crud resourcetype="Items"></simple-crud>
+        </div>
     </div>
 </div>
 

@@ -1,11 +1,29 @@
 ﻿Vue.component('simple-crud', {
-    props: ['resource'],
+    props: ['resourcetype'],
     data: function () {
         return {
-            count: 0
+            resourceCollection: {}
         }
     },
-    template: '<button v-on:click="count++">You clicked me {{ count }} times. I am a {{ resource }}</button>'
+    mounted: function () {
+        var self = this;
+
+        fetch(`/api/${self.resourcetype}`, {
+            credentials: 'same-origin'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (res) {
+            self.resourceCollection = res;
+        });
+    },
+    template: `<div class='simple-crud'>
+                <div class='crud-row' v-for='r in resourceCollection'>
+
+                </div>
+                <div class='create-row'>
+    
+                </div>
+               </div>`
 });
 
 var app = new Vue({
@@ -25,21 +43,9 @@ var app = new Vue({
             }).then(function (res) {
                 return res.json();
             }).then(function (res) {
-                console.log("Authorized call result", res);
                 self.canAccessAdmin = res;
             });
 
         }
     }
-});
-
-var itemManagement = new Vue({
-    el: "#itemManagement",
-    data: {
-        items: [
-            { id: 23, description: "A big boollet" },
-            { id: 10, description: "Toilet flushing mechanism" }
-        ]
-    }
-
 });
