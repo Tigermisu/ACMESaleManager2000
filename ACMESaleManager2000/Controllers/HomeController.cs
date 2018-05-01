@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ACMESaleManager2000.Models;
 using Microsoft.AspNetCore.Authorization;
+using ACMESaleManager2000.DomainServices;
+using Microsoft.AspNetCore.Identity;
 
 namespace ACMESaleManager2000.Controllers
 {

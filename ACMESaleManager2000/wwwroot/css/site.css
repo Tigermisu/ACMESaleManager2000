@@ -12,6 +12,14 @@
     min-height: calc(100vh - 100px);
 }
 
+.navbar-inverse .btn-link {
+    color: #fff;
+}
+
+.text-danger {
+    color: #ffffff;
+}
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
@@ -69,6 +77,30 @@ h1.acme {
     h1.acme.sm {
         font-size: 64px;
     }
+
+ul.nav-tabs {
+    display: flex;
+}
+
+    ul.nav-tabs > li {
+        float: none;
+        flex-grow: 1;
+        text-align: center;
+    }
+
+        ul.nav-tabs > li > a {
+            color: #fff;
+        }
+
+        ul.nav-tabs > li > a:hover {
+            color: #555;
+        }
+
+.tab-content {
+    padding: 16px 8px;
+    background-color: #fff;
+    margin-bottom: -20px;
+}
 
 @media screen and (min-width: 767px) {
     /* Hide captions */

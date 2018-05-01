@@ -54,6 +54,9 @@ namespace ACMESaleManager2000
             services.AddTransient<IPurchaseOrderRepository, PurchaseOrderRepository>();
             services.AddTransient<IRepository<PurchaseOrder>, PurchaseOrderRepository>();
 
+
+            services.AddTransient<IDashboardService, DashboardService>();
+
             services.AddMvc();
         }
 
