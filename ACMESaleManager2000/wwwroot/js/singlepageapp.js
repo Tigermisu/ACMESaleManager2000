@@ -460,9 +460,32 @@ var app = new Vue({
     el: '#app',
     mounted: function () {
         this.verifyAdminAccess();
+        this.getItemReports();
     },
     data: {
-        canAccessAdmin: false
+        canAccessAdmin: false,
+        reports: {
+            profits: {
+                delta: 7,
+                data: {
+                    incomes: [],
+                    expenses: [],
+                    profit: {}
+                }
+            },
+
+            items: {
+                popular: {
+                    delta: 7,
+                    data: []
+                },
+
+                lowStock: {
+                    delta: 7,
+                    data: []
+                }
+            }
+        }
     },
     methods: {
         verifyAdminAccess: function () {
@@ -474,8 +497,46 @@ var app = new Vue({
                 return res.json();
             }).then(function (res) {
                 self.canAccessAdmin = res;
+
+                if (self.canAccessAdmin) {
+                    self.getProfitReports();
+                }
             });
 
+        },
+
+        getProfitReports: function () {
+            var self = this;
+
+            fetch(`/api/Dashboard/profits/${self.reports.profits.delta}`, {
+                credentials: 'same-origin'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                self.reports.profits.data.incomes = res.incomes;
+                self.reports.profits.data.expenses = res.expenses;
+                self.reports.profits.data.profit = res.profit;
+            });
+        },
+
+        getItemReports: function () {
+            var self = this;
+
+            fetch(`/api/Dashboard/popular/${self.reports.items.popular.delta}`, {
+                credentials: 'same-origin'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                self.reports.items.popular.data = res;
+            });
+
+            fetch(`/api/Dashboard/lowstock/${self.reports.items.lowStock.delta}`, {
+                credentials: 'same-origin'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                self.reports.items.lowStock.data = res;
+            });
         }
     }
 });

@@ -49,6 +49,10 @@
     color: #fff;
 }
 
+.reports * {
+    color: #333;
+}
+
 .navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav > li > a, h2, p, label, h4, h1 {
     color: #fff;
 }

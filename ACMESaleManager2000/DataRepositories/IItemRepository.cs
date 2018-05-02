@@ -14,7 +14,7 @@ namespace ACMESaleManager2000.DataRepositories
 
         List<Item> GetLowStockItems(int stockThreshold);
 
-        List<Item> GetPopularItems(int saleThreshold);
+        List<ItemSaleOrder> GetPopularItems(int deltaDays);
 
         void ModifyStock(int itemId, int delta);
     }

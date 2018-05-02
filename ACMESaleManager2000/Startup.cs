@@ -117,6 +117,9 @@ namespace ACMESaleManager2000
                 cfg.CreateMap<ItemSaleOrder, ItemSaleOrderEntity>();
                 cfg.CreateMap<ItemPurchaseOrderViewModel, ItemPurchaseOrder>();
                 cfg.CreateMap<ItemSaleOrderViewModel, ItemSaleOrder>();
+
+                cfg.CreateMap<ProfitReport, ProfitReportViewModel>();
+                cfg.CreateMap<ItemSaleReport, ItemSaleReportViewModel>();
             });
         }
 

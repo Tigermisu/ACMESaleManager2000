@@ -36,9 +36,20 @@ namespace ACMESaleManager2000.DataRepositories
             return Map(DbSet.Where(i => i.QuantityAvailable <= stockThreshold).ToList());
         }
 
-        public List<Item> GetPopularItems(int saleThreshold)
+        public List<ItemSaleOrder> GetPopularItems(int deltaDays)
         {
-            throw new NotImplementedException();
+            var items = _context.ItemSaleOrderEntity
+                .Where(i => i.SaleOrder.DateOfSale > DateTime.Now.AddDays(-deltaDays))
+                .GroupBy(i => i.ItemEntityId)
+                .Select(e => new ItemSaleOrderEntity
+            {
+                Item = e.First().Item,
+                SoldPrice = e.Average(a => a.SoldPrice),
+                SoldQuantity = e.Sum(a => a.SoldQuantity)
+            }).OrderByDescending(s => s.SoldQuantity)
+            .Take(3);
+
+            return items.Select(e => Mapper.Map<ItemSaleOrder>(e)).ToList();
         }
 
         public void ModifyStock(int itemId, int delta)

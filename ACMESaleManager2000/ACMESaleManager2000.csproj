@@ -10,6 +10,10 @@
     <Compile Remove="Data\Migrations\20180422220848_fixedPurchaseOrderRequiredKey.Designer.cs" />
     <Compile Remove="Data\Migrations\20180422232114_ChangedOrdersToUseACollectionOfItems.cs" />
     <Compile Remove="Data\Migrations\20180422232114_ChangedOrdersToUseACollectionOfItems.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180502041046_test.cs" />
+    <Compile Remove="Data\Migrations\20180502041046_test.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180502041145_test.cs" />
+    <Compile Remove="Data\Migrations\20180502041145_test.Designer.cs" />
   </ItemGroup>
 
 

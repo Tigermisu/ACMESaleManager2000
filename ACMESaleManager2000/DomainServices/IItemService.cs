@@ -8,6 +8,8 @@ namespace ACMESaleManager2000.DomainServices
 {
     public interface IItemService : IService<Item>
     {
-        
+        List<Item> GetLowStockItems(int threshold);
+
+        List<ItemSaleOrder> GetPopularItems(int deltaDays);
     }
 }

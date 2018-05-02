@@ -14,6 +14,7 @@ namespace ACMESaleManager2000.Data
         public DbSet<SaleOrderEntity> SaleOrders { get; set; }
         public DbSet<PurchaseOrderEntity> PurchaseOrders { get; set; }
         public DbSet<ItemEntity> Items { get; set; }
+        public DbSet<ItemSaleOrderEntity> ItemSaleOrderEntity { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

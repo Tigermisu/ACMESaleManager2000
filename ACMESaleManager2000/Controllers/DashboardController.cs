@@ -31,5 +31,21 @@ namespace ACMESaleManager2000.Controllers
         public bool CanAccessAdmin() {
             return _dashboardService.CanUserAdministrate(User);
         }
+
+        [HttpGet("lowstock/{threshold}")]
+        public List<ItemViewModel> GetLowStockItems([FromRoute] int threshold) {
+            return _dashboardService.GetLowStockItems(threshold).Select(e => Mapper.Map<ItemViewModel>(e)).ToList();
+        }
+
+        [HttpGet("popular/{deltaDays}")]
+        public List<ItemSaleReportViewModel> GetPopularItems([FromRoute] int deltaDays) {
+            return _dashboardService.GetPopularItems(deltaDays).Select(e => Mapper.Map<ItemSaleReportViewModel>(e)).ToList();
+        }
+
+        [HttpGet("profits/{deltaDays}")]
+        public ProfitReportViewModel GetProfits([FromRoute] int deltaDays)
+        {
+            return Mapper.Map<ProfitReportViewModel>(_dashboardService.GetProfits(deltaDays));
+        }
     }
 }

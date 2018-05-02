@@ -53,19 +53,19 @@ namespace ACMESaleManager2000.Controllers
 
         // PUT: api/PurchaseOrders/5
         [HttpPut("{id}")]
-        public IActionResult PutPurchaseOrderEntity([FromRoute] int id, [FromBody] PurchaseOrderViewModel purchaseOrderEntity)
+        public IActionResult PutPurchaseOrderEntity([FromRoute] int id, [FromBody] PurchaseOrderViewModel purchaseOrder)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != purchaseOrderEntity.Id)
+            if (id != purchaseOrder.Id)
             {
                 return BadRequest();
             }
 
-            if (_purchaseOrderService.SaveModifiedEntity(Mapper.Map<PurchaseOrderEntity>(purchaseOrderEntity)))
+            if (_purchaseOrderService.SaveModifiedEntity(Mapper.Map<PurchaseOrderEntity>(purchaseOrder)))
             {
                 return NoContent();
             }
@@ -75,20 +75,20 @@ namespace ACMESaleManager2000.Controllers
 
         // POST: api/PurchaseOrders
         [HttpPost]
-        public IActionResult PostPurchaseOrderEntity([FromBody] PurchaseOrderViewModel purchaseOrderEntity)
+        public IActionResult PostPurchaseOrderEntity([FromBody] PurchaseOrderViewModel purchaseOrder)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _purchaseOrderService.CreateEntity(Mapper.Map<PurchaseOrder>(purchaseOrderEntity));
+            _purchaseOrderService.CreateEntity(Mapper.Map<PurchaseOrder>(purchaseOrder));
 
-            foreach (var p in purchaseOrderEntity.PurchasedItems) {
+            foreach (var p in purchaseOrder.PurchasedItems) {
                 _purchaseOrderService.AddToItemInventory(p.ItemEntityId, p.PurchasedQuantity);
             }
 
-            return CreatedAtAction("GetPurchaseOrderEntity", new { id = purchaseOrderEntity.Id }, purchaseOrderEntity);
+            return CreatedAtAction("GetPurchaseOrderEntity", new { id = purchaseOrder.Id }, purchaseOrder);
         }
 
         // DELETE: api/PurchaseOrders/5
