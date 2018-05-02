@@ -94,6 +94,219 @@ var crudMixin = {
     }
 }
 
+Vue.component('sale-point', {
+    props: ['type'],
+    data: function () {
+        return {
+            availableItems: [],
+            items: [],
+            selector: {
+                item: null,
+                quantity: ""
+            },
+            meta: "",
+            orderFailed: false,
+            orderMessage: ""
+        }
+    },
+    mounted: function () {
+        this.fetchItems();
+    },
+    created: function () {
+        this.$eventHub.$on('resource-changeItems', this.fetchItems);
+    },
+    beforeDestroy() {
+        this.$eventHub.$off('resource-changeItems');
+    },
+    computed: {
+        total: function () {
+            if (this.items.length == 0) {
+                return 0;
+            }
+
+            var sum = 0;
+
+            this.items.forEach(function (item) {
+                sum += parseFloat(item.price) * parseInt(item.quantity);
+            });
+
+            return sum;
+        },
+        typeHeader: function () {
+            return this.type.replace(/([A-Z])/g, ' $1').trim().slice(0, -1);
+        }
+    },
+    methods: {
+        fetchItems: function () {
+            var self = this;
+
+            fetch('/api/Items', {
+                credentials: 'same-origin'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                self.availableItems = res;
+            });
+        },
+        removeItem: function (index) {
+            this.items.splice(index, 1);
+        },
+        addItem: function () {
+            this.orderMessage = "";
+            this.orderFailed = false;
+            if (this.selector.item == null || parseInt(this.selector.quantity <= 0)) {
+                this.orderMessage = "Choose an item with a quantity greater than 0 to continue.";
+                this.orderFailed = true;
+            }
+            var preItem = this.selector.item,
+                price = 0,
+                qty = parseInt(this.selector.quantity),
+                indexOfItem = -1;
+
+            if (this.type == 'SaleOrders') {
+                price = this.selector.item.salePrice;
+            } else {
+                price = this.selector.item.purchasePrice;
+            }
+
+            if (this.type == 'SaleOrders' && qty > preItem.quantityAvailable) {
+                var message = "";
+                qty = preItem.quantityAvailable;
+                switch (qty) {
+                    case 0:
+                        message = `There are no ${preItem.name}`;
+                        break;
+                    case 1:
+                        message = `There is only one ${preItem.name}`;
+                        break;
+                    default:
+                        message = `There are only ${qty} ${preItem.name}s`;
+                }
+
+                alert(`${message} available in stock. Updating quantity.`);
+            }
+
+            preItem['price'] = price;
+            preItem['quantity'] = qty;
+
+            indexOfItem = this.items.findIndex(function (item) { return item.id == preItem.id });
+
+            if (indexOfItem != -1) {
+                this.items[indexOfItem].quantity = parseInt(this.selector.quantity);
+            } else {
+                this.items.push(preItem);   
+            } 
+
+            this.selector.item = null;
+            this.selector.quantity = "";
+        },
+        placeOrder: function () {
+            if (this.items.length == 0) {
+                this.orderMessage = "Please add at least one item to the order";
+                this.orderFailed = true;
+                return;
+            }
+
+            var relationshipArray = [];
+            var requestObject = {};
+            var self = this;
+            var fetchUrl = null;
+
+            if (this.type == "SaleOrders") {
+                this.items.forEach(function (item) {
+                    relationshipArray.push({
+                        ItemEntityId: item.id,
+                        SoldQuantity: item.quantity,
+                        SoldPrice: item.salePrice
+                    });
+                });
+
+                requestObject['SoldItems'] = relationshipArray;
+                requestObject['ClientName'] = this.meta;
+                fetchUrl = "/api/SaleOrders";
+            } else {
+                this.items.forEach(function (item) {
+                    relationshipArray.push({
+                        ItemEntityId: item.id,
+                        PurchasedQuantity: item.quantity,
+                        PurchasedPrice: item.purchasePrice
+                    });
+                });
+
+                requestObject['PurchasedItems'] = relationshipArray;
+                requestObject['Description'] = this.meta;
+                fetchUrl = "/api/PurchaseOrders";
+            }
+
+            fetch(fetchUrl, {
+                method: 'POST',
+                credentials: 'same-origin',
+                body: JSON.stringify(requestObject),
+                headers: {
+                    'Content-Type': 'application/json'
+
+                }
+            }).then(function (res) {
+                if (res.ok) {
+                    console.log(self.type, "created!");
+
+                    self.$eventHub.$emit('resource-change' + self.type);
+                    self.$eventHub.$emit('resource-changeItems');
+
+                    self.orderMessage = "Order succesfully created!";
+                    self.orderFailed = false;
+
+                    setTimeout(function () {
+                        self.meta = "";
+                        self.items = [];
+                        self.orderMessage = "";
+                    }, 3000);
+
+                } else {
+                    console.warn("Error creating order");
+                    res.json().then(function (data) {
+                        self.orderMessage = `Error creating order: ${JSON.stringify(data)}`;
+                        self.orderFailed = true;
+                    });
+                }
+            });
+        }
+    },
+    template: `<div class='sale-point'>
+                <h2>New {{ typeHeader }}</h2>
+                <input class='main' placeholder='Client Name' v-if="type=='SaleOrders'" v-model="meta" />
+                <input class='main' placeholder='Description' v-else v-model="meta" />
+                <h3>Items</h3>
+                <div class='faux head'>
+                    <slot></slot>
+                </div>
+                <div class='faux row' v-for="(item, index) in items">
+                    <img :src="item.imagePath" alt="Item Image Missing"/>
+                    <p>{{ item.name }}</p>
+                    <p>{{ item.description }}</p>
+                    <p>{{ item.quantity }}</p>
+                    <p>$\{{ item.price }}</p>
+                    <p>$\{{ item.quantity * item.price }}</p>
+                    <p class="glyphicon glyphicon-remove" v-on:click="removeItem(index)"></p>
+                </div>
+                <div class='item-adder'>
+                    <select v-model="selector.item">
+                        <option :value="null" disabled>Select an Item</option>
+                        <option v-for="item in availableItems" :value="item">{{ item.name }}</option>
+                    </select>
+                    <input type="number" v-model="selector.quantity" placeholder="Quantity">
+                    <p class="glyphicon glyphicon-plus" v-on:click="addItem()"></p>                    
+                </div>
+                <div class="finisher">
+                    <p><b>Order Total:</b> $\{{ total }}</p>
+                    <button v-on:click="placeOrder()">Place Order</button>
+                </div>
+                <div class="order-message" v-bind:class='{ failed: orderFailed }'>
+                 {{ orderMessage }}
+                </div>
+               </div>`
+});
+
 Vue.component('simple-crud', {
     props: ['resourcetype'],
     data: function () {

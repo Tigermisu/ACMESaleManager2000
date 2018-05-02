@@ -120,7 +120,7 @@ namespace ACMESaleManager2000
             });
         }
 
-        // Role creation from 
+        // Role creation based on 
         // Temi Lajumoke @ https://stackoverflow.com/questions/42471866/how-to-create-roles-in-asp-net-core-and-assign-them-to-users
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {

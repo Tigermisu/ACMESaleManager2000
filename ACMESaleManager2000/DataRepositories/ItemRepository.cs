@@ -26,6 +26,11 @@ namespace ACMESaleManager2000.DataRepositories
             return GetAll();
         }
 
+        public List<Item> GetItems(int[] ids)
+        {
+            return Map(DbSet.Where(item => ids.Contains(item.Id)).ToList());
+        }
+
         public List<Item> GetLowStockItems(int stockThreshold)
         {
             return Map(DbSet.Where(i => i.QuantityAvailable <= stockThreshold).ToList());

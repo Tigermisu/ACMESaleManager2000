@@ -77,7 +77,7 @@ namespace ACMESaleManager2000.Controllers
         [HttpPost]
         public IActionResult PostSaleOrderEntity([FromBody] SaleOrderViewModel saleOrderEntity)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || !_saleOrderService.VerifyStock(Mapper.Map<SaleOrder>(saleOrderEntity)))
             {
                 return BadRequest(ModelState);
             }

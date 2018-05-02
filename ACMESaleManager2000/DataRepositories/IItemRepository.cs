@@ -10,6 +10,8 @@ namespace ACMESaleManager2000.DataRepositories
     {
         List<Item> GetItems();
 
+        List<Item> GetItems(int[] ids);
+
         List<Item> GetLowStockItems(int stockThreshold);
 
         List<Item> GetPopularItems(int saleThreshold);

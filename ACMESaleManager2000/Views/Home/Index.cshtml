@@ -15,11 +15,29 @@
             I am the dashboard!
         </div>
         <div role="tabpanel" class="tab-pane fade" id="saleOrder">
-            I am the sale order creation!
+            <sale-point type="SaleOrders">
+                <ul>
+                    <li>Image</li>
+                    <li>Name</li>
+                    <li>Description</li>
+                    <li>Quantity</li>
+                    <li>Sale Price</li>
+                    <li>Total</li>
+                </ul>
+            </sale-point>
         </div>
         <template v-if="canAccessAdmin">
             <div role="tabpanel" class="tab-pane fade" id="purchaseOrder">
-                I am the purchase order creation!
+                <sale-point type="PurchaseOrders">
+                    <ul>
+                        <li>Image</li>
+                        <li>Name</li>
+                        <li>Description</li>
+                        <li>Quantity</li>
+                        <li>Purchase $</li>
+                        <li>Total</li>
+                    </ul>
+                </sale-point>
             </div>
             <div role="tabpanel" class="tab-pane fade sales" id="saleManagement">
                 <simple-crud resourcetype="SaleOrders">
