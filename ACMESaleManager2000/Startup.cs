@@ -104,6 +104,9 @@ namespace ACMESaleManager2000
                 cfg.CreateMap<PurchaseOrder, PurchaseOrderViewModel>();
                 cfg.CreateMap<Item, ItemViewModel>();
 
+                cfg.CreateMap<ItemViewModel, ItemEntity>();
+                cfg.CreateMap<PurchaseOrderViewModel, PurchaseOrderEntity>();
+                cfg.CreateMap<SaleOrderViewModel, SaleOrderEntity>();
 
                 cfg.CreateMap<ItemPurchaseOrderEntity, ItemPurchaseOrder>().ForMember(m => m.PurchaseOrder, opt => opt.Ignore()); ;
                 cfg.CreateMap<ItemSaleOrderEntity, ItemSaleOrder>().ForMember(m => m.SaleOrder, opt => opt.Ignore());

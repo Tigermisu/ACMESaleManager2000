@@ -13,9 +13,11 @@ namespace ACMESaleManager2000.ViewModels
         public int Id { get; set; }
 
         [Required]
+        [StringLength(30, MinimumLength = 3)]
         public string Name { get; set; }
 
         [Required]
+        [StringLength(255, MinimumLength = 3)]
         public string Description { get; set; }
 
         [Required]
@@ -32,8 +34,16 @@ namespace ACMESaleManager2000.ViewModels
 
         public string ImagePath { get; set; }
 
-        public string ProductCode { get {
-                return $"ACME-{Name.Substring(0, 3)}-{Description.Substring(0,3)}";
-            } }
+        public string ProductCode {
+            get {
+                if (Name == null || Description == null) {
+                    return "BAD-ITEM";
+                }
+                string name = Name.Length > 3 ? Name.Substring(0, 3) : Name,
+                    description = Description.Length > 3 ? Description.Substring(0, 3) : Description;
+
+                return $"ACME-{name}-{description}";
+            }
+        }
     }
 }

@@ -20,5 +20,17 @@ namespace ACMESaleManager2000.ViewModels
         public virtual ICollection<ItemPurchaseOrderViewModel> PurchasedItems { get; set; }
 
         public string Description { get; set; }
+
+        public decimal Total {
+            get {
+                decimal total = 0;
+
+                foreach (ItemPurchaseOrderViewModel itempurchase in PurchasedItems) {
+                    total += itempurchase.PurchasedPrice * itempurchase.PurchasedQuantity;
+                }
+
+                return total;
+            }
+        }
     }
 }

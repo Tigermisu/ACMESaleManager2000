@@ -17,20 +17,47 @@
         <div role="tabpanel" class="tab-pane fade" id="saleOrder">
             I am the sale order creation!
         </div>
-        <div role="tabpanel" class="tab-pane fade" id="purchaseOrder">
-            I am the purchase order creation!
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="saleManagement">
-            I am the sale management tab!
-
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="purchaseManagement">
-            I am the purchase management tab!
-
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="itemManagement">
-            <simple-crud resourcetype="Items"></simple-crud>
-        </div>
+        <template v-if="canAccessAdmin">
+            <div role="tabpanel" class="tab-pane fade" id="purchaseOrder">
+                I am the purchase order creation!
+            </div>
+            <div role="tabpanel" class="tab-pane fade sales" id="saleManagement">
+                <simple-crud resourcetype="SaleOrders">
+                    <ul>
+                        <li>#</li>
+                        <li>Date</li>
+                        <li>Client Name</li>
+                        <li>Items</li>
+                        <li>Total</li>
+                    </ul>
+                </simple-crud>
+            </div>
+            <div role="tabpanel" class="tab-pane fade purchases" id="purchaseManagement">
+                <simple-crud resourcetype="PurchaseOrders">
+                    <ul>
+                        <li>#</li>
+                        <li>Date</li>
+                        <li>Description</li>
+                        <li>Items</li>
+                        <li>Total</li>
+                    </ul>
+                </simple-crud>
+            </div>
+            <div role="tabpanel" class="tab-pane fade items" id="itemManagement">
+                <simple-crud resourcetype="Items">
+                    <ul>
+                        <li>#</li>
+                        <li>Product Code</li>
+                        <li>Name</li>
+                        <li>Description</li>
+                        <li>Qty</li>
+                        <li>Purchase $</li>
+                        <li>Sale $</li>
+                        <li>Image Path</li>
+                    </ul>
+                </simple-crud>
+            </div>
+        </template>
     </div>
 </div>
 

@@ -80,16 +80,22 @@ h1.acme {
 
 ul.nav-tabs {
     display: flex;
+    border-bottom: none;
 }
 
     ul.nav-tabs > li {
         float: none;
         flex-grow: 1;
         text-align: center;
+        border: none;
+        margin-bottom: 0;
     }
 
         ul.nav-tabs > li > a {
             color: #fff;
+            border: none !important;
+            border-radius: 0;
+            margin-right: 0;
         }
 
         ul.nav-tabs > li > a:hover {
@@ -97,7 +103,7 @@ ul.nav-tabs {
         }
 
 .tab-content {
-    padding: 16px 8px;
+    padding: 16px 0;
     background-color: #fff;
     margin-bottom: -20px;
 }
@@ -105,6 +111,210 @@ ul.nav-tabs {
 .simple-crud * {
     color: #333;
 }
+
+.faux {
+    padding: 4px 8px;
+}
+
+.faux ul {
+    margin: 0;
+    padding: 0;
+}
+
+.faux.head {
+    border-bottom: 1px solid #d63031;
+    margin-bottom: 5px;
+}
+
+.faux li {
+    display: inline-block;
+    font-weight: 700;
+}
+
+.faux.row {
+    margin: 0;
+}
+
+    .faux.row > * {
+        display: inline-block;
+    }
+
+    .faux.row input {
+        border: none;
+        border-bottom: 1px solid #dedede;
+        background-color: transparent;
+    }
+
+    .faux.row input:focus {
+        outline: none;
+        border-bottom: 1px solid #d63031;
+    }
+
+.faux.row > .glyphicon {
+    position: relative;
+    top: 5px;
+    float: right;
+    cursor: pointer;
+}
+
+.glyphicon-remove {
+    color: #ff7675;
+}
+
+.glyphicon-plus:hover {
+    color: #55efc4;
+}
+
+.glyphicon-remove:hover, span.red, .create-error {
+    color: #d63031;
+}
+
+.glyphicon-plus:hover {
+    color: #00b894;
+}
+
+.faux p {
+    margin: 0;
+}
+
+.create-row {
+    margin-top: 16px;
+}
+
+input::placeholder {
+    color: #dedede;
+}
+
+.navbar-right a:hover {
+    text-decoration: underline !important;
+}
+
+.faux.row.invalid {
+    background-color: #ff7675;
+}
+
+.items .faux.row > *:nth-child(1), .items .faux.head li:nth-child(1) {
+    width: 3%;
+}
+
+.items .faux.row > *:nth-child(2), .items .faux.head li:nth-child(2) {
+    width: 10%;
+}
+
+.items .faux.row > *:nth-child(3), .items .faux.head li:nth-child(3) {
+    width: 15%;
+}
+
+.items .faux.row > *:nth-child(4), .items .faux.head li:nth-child(4) {
+    width: 24%
+}
+
+.items .faux.row > *:nth-child(5), .items .faux.head li:nth-child(5) {
+    width: 4%;
+}
+
+.items .faux.row > *:nth-child(6), .items .faux.head li:nth-child(6) {
+    width: 7%;
+}
+
+.items .faux.row > *:nth-child(7), .items .faux.head li:nth-child(7) {
+    width: 7%;
+}
+
+.items .faux.row > *:nth-child(8), .items .faux.head li:nth-child(8) {
+    width: 23%;
+}
+
+.items .faux.row > *:nth-child(9), .items .faux.head li:nth-child(9) {
+    width: 2%;
+}
+
+.items .faux.row.create > *:nth-child(1) {
+    width: 0%;
+}
+
+.items .faux.row.create > *:nth-child(2) {
+    width: 13.4%;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.purchases .faux.row > *:nth-child(1), .purchases .faux.head li:nth-child(1) {
+    width: 3%;
+}
+
+.purchases .faux.row > *:nth-child(2), .purchases .faux.head li:nth-child(2) {
+    width: 10%;
+}
+
+.purchases .faux.row > *:nth-child(3), .purchases .faux.head li:nth-child(3) {
+    width: 20%;
+}
+
+.purchases .faux.row > *:nth-child(4), .purchases .faux.head li:nth-child(4) {
+    width: 57%
+}
+
+.purchases .faux.row > *:nth-child(5), .purchases .faux.head li:nth-child(5) {
+    width: 4%;
+}
+
+.sales .faux.row > *:nth-child(1), .sales .faux.head li:nth-child(1) {
+    width: 3%;
+}
+
+.sales .faux.row > *:nth-child(2), .sales .faux.head li:nth-child(2) {
+    width: 15%;
+}
+
+.sales .faux.row > *:nth-child(3), .sales .faux.head li:nth-child(3) {
+    width: 15%;
+}
+
+.sales .faux.row > *:nth-child(4), .sales .faux.head li:nth-child(4) {
+    width: 57%
+}
+
+.sales .faux.row > *:nth-child(5), .sales .faux.head li:nth-child(5) {
+    width: 4%;
+}
+
+div.item-visualizer {
+    max-height: 23px;
+    margin-top: -7px;
+}
+
+.item-visualizer .item-wrapper {
+    position: relative;
+    display: inline-block;
+    background-color: #81ecec;
+    padding: 2px;
+    border: 1px solid #00cec9;
+    margin: 0 2px;
+    overflow: hidden;
+    top: 7px;
+}
+
+.item-visualizer .item-details {
+    position: absolute;
+    left: -1px;
+    right: -1px;
+    padding: 0 2px;
+    z-index: 2;
+}
+
+.item-visualizer .item-wrapper:hover {
+    border-bottom: none;
+    overflow: visible;
+    top: -1px;
+}
+
+    .item-visualizer .item-wrapper:hover .item-details {
+        background-color: #81ecec;
+        border-bottom: 1px solid #00cec9;
+        border-right: 1px solid #00cec9;
+        border-left: 1px solid #00cec9;
+    }
 
 @media screen and (min-width: 767px) {
     /* Hide captions */

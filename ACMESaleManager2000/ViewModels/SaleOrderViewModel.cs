@@ -21,5 +21,18 @@ namespace ACMESaleManager2000.ViewModels
 
 
         public string ClientName { get; set; }
+
+        public decimal Total {
+            get {
+                decimal total = 0;
+
+                foreach (ItemSaleOrderViewModel itemsale in SoldItems)
+                {
+                    total += itemsale.SoldPrice * itemsale.SoldQuantity;
+                }
+
+                return total;
+            }
+        }
     }
 }
