@@ -16,23 +16,22 @@
                 <template v-if="canAccessAdmin">
                     <h2>Profit Reports</h2>
                     <div class="report">
+                        <p>Show report from the last <input v-on:change="getProfitReports" v-model="reports.profits.delta" /> days</p>
                         <div class="row">
                             <div class="col-md-4">
                                 <h3>Incomes</h3>
                                 <div id="income-plot">
-                                    {{ reports.profits.data.incomes }}
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <h3>Expenses</h3>
                                 <div id="expense-plot">
-                                    {{ reports.profits.data.expenses }}
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <h3>Profit</h3>
                                 <div class="profit" v-bind:class="{ negative: reports.profits.data.profit < 0 }">
-                                    ${{ reports.profits.data.profit }}
+                                    <div>${{ reports.profits.data.profit }}</div>
                                 </div>
                             </div>
                         </div>
@@ -43,16 +42,20 @@
                     <div class="col-md-6">
                         <div class="report">
                             <h3>Popular Items</h3>
+                            <p>Show report from the last <input v-on:change="getPopularItemReports" v-model="reports.items.popular.delta" /> days</p>
+
                             <div id="popular-plot">
-                                {{ reports.items.popular.data }}
+
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="report">
                             <h3>Low Stock Items</h3>
+                            <p>Show items with a stock less or equal to <input v-on:change="getLowStockItemReports" v-model="reports.items.lowStock.delta" /></p>
+
                             <div id="low-stock-plot">
-                                {{ reports.items.lowStock.data }}
+
                             </div>
                         </div>
                     </div>

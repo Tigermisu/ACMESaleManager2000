@@ -470,7 +470,7 @@ var app = new Vue({
                 data: {
                     incomes: [],
                     expenses: [],
-                    profit: {}
+                    profit: 'Loading...'
                 }
             },
 
@@ -505,6 +505,121 @@ var app = new Vue({
 
         },
 
+        initPopularItemsPlot() {
+            var yAxisOne = this.reports.items.popular.data.map(function (d) { return d.totalSold });
+
+            var SoldQuantity = {
+                x: this.reports.items.popular.data.map(function (d) { return d.item.name }),
+                y: yAxisOne,
+                type: 'bar',
+                text: yAxisOne,
+                textposition: 'auto',
+                hoverinfo: 'none',
+                marker: {
+                    color: 'rgb(85, 239, 196)',
+                    opacity: 1,
+                    line: {
+                        color: 'rgb(0, 184, 148)',
+                        width: 1.5
+                    }
+                }
+            }
+
+            var layout = {
+                yaxis: {
+                    title: 'Number of units sold'
+                }
+            };
+
+            Plotly.newPlot('popular-plot', [SoldQuantity], layout);
+        },
+
+        initLowStockPlot() {
+            var yAxis = this.reports.items.lowStock.data.map(function (d) { return d.quantityAvailable });
+            var plot = {
+                x: this.reports.items.lowStock.data.map(function (d) { return d.name }),
+                y: yAxis,
+                type: 'bar',
+                text: yAxis,
+                textposition: 'auto',
+                hoverinfo: 'none',
+                marker: {
+                    color: 'rgb(255, 118, 117)',
+                    opacity: 1,
+                    line: {
+                        color: 'rgb(214, 48, 49)',
+                        width: 1.5
+                    }
+                }
+            }
+
+            var layout = {
+                yaxis: {
+                    title: 'Stock remaining'
+                }
+            };
+
+
+            Plotly.newPlot('low-stock-plot', [plot], layout);
+        },
+
+        initProfitsPlot: function () {
+            var accumulatedIncomes = [];
+            var accumulatedExpenses = [];
+
+            this.reports.profits.data.incomes.reduce(function (a, b, i) { return accumulatedIncomes[i] = a + b.value; }, 0);
+            this.reports.profits.data.expenses.reduce(function (a, b, i) { return accumulatedExpenses[i] = a + b.value; }, 0);
+
+            var incomes = {
+                x: this.reports.profits.data.incomes.map(function (d, i) { return i + 1 }),
+                y: accumulatedIncomes,
+                type: 'scatter',
+                marker: {
+                    color: 'rgb(85, 239, 196)',
+                    opacity: 1,
+                    line: {
+                        color: 'rgb(0, 184, 148)',
+                        width: 1.5
+                    }
+                }
+            };
+
+            var incomeLayout = {
+                xaxis: {
+                    title: '# of Sale'
+                },
+                yaxis: {
+                    title: 'Cumulative Profit'
+                }
+            };
+
+            var expenses = {
+                x: this.reports.profits.data.expenses.map(function (d, i) { return i + 1 }),
+                y: accumulatedExpenses,
+                type: 'scatter',
+                marker: {
+                    color: 'rgb(255, 118, 117)',
+                    opacity: 1,
+                    line: {
+                        color: 'rgb(214, 48, 49)',
+                        width: 1.5
+                    }
+                }
+            };
+
+            var expenseLayout = {
+                xaxis: {
+                    title: '# of Purchase'
+                },
+                yaxis: {
+                    title: 'Cumulative Expense'
+                }
+            };
+
+            Plotly.newPlot('income-plot', [incomes], incomeLayout);
+            Plotly.newPlot('expense-plot', [expenses], expenseLayout);
+        },
+
         getProfitReports: function () {
             var self = this;
 
@@ -516,10 +631,12 @@ var app = new Vue({
                 self.reports.profits.data.incomes = res.incomes;
                 self.reports.profits.data.expenses = res.expenses;
                 self.reports.profits.data.profit = res.profit;
+
+                self.initProfitsPlot();
             });
         },
 
-        getItemReports: function () {
+        getPopularItemReports: function () {
             var self = this;
 
             fetch(`/api/Dashboard/popular/${self.reports.items.popular.delta}`, {
@@ -528,7 +645,13 @@ var app = new Vue({
                 return res.json();
             }).then(function (res) {
                 self.reports.items.popular.data = res;
+
+                self.initPopularItemsPlot();
             });
+        },
+
+        getLowStockItemReports: function () {
+            var self = this;
 
             fetch(`/api/Dashboard/lowstock/${self.reports.items.lowStock.delta}`, {
                 credentials: 'same-origin'
@@ -536,7 +659,15 @@ var app = new Vue({
                 return res.json();
             }).then(function (res) {
                 self.reports.items.lowStock.data = res;
+
+                self.initLowStockPlot();
             });
+        },
+
+        getItemReports: function () {
+            this.getPopularItemReports();
+
+            this.getLowStockItemReports();
         }
     }
 });

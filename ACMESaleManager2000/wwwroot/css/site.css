@@ -49,6 +49,24 @@
     color: #fff;
 }
 
+.reports {
+    padding: 8px;
+}
+
+.profit div {
+    font-size: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00b894;
+    margin-top: 50%;
+    transform: translate(0, -50%);
+}
+
+    .profit.negative div {
+        color: #d63031;
+    }
+
 .reports * {
     color: #333;
 }
@@ -143,7 +161,7 @@ ul.nav-tabs {
         display: inline-block;
     }
 
-    .faux.row input, .sale-point input, .sale-point select {
+    .faux.row input, .sale-point input, .sale-point select, .reports input {
         border: none;
         border-bottom: 1px solid #dedede;
         background-color: transparent;
@@ -153,6 +171,12 @@ ul.nav-tabs {
         outline: none;
         border-bottom: 1px solid #d63031;
     }
+
+
+.reports input {
+    width: 25px;
+    text-align: center;
+}
 
 .faux.row > .glyphicon {
     position: relative;
