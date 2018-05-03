@@ -11,11 +11,13 @@ using ACMESaleManager2000.DomainServices;
 using ACMESaleManager2000.ViewModels;
 using AutoMapper;
 using ACMESaleManager2000.DomainObjects;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ACMESaleManager2000.Controllers
 {
     [Produces("application/json")]
     [Route("api/SaleOrders")]
+    [Authorize]
     public class SaleOrdersController : Controller
     {
         private readonly ISaleOrderService _saleOrderService;
@@ -27,6 +29,7 @@ namespace ACMESaleManager2000.Controllers
 
         // GET: api/SaleOrders
         [HttpGet]
+        [Authorize(Roles = "Admin, Supervisor")]
         public IEnumerable<SaleOrderViewModel> GetSaleOrders()
         {
             return _saleOrderService.GetAll().Select(s => Mapper.Map<SaleOrderViewModel>(s));
@@ -34,6 +37,7 @@ namespace ACMESaleManager2000.Controllers
 
         // GET: api/SaleOrders/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin, Supervisor")]
         public IActionResult GetSaleOrderEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -53,6 +57,7 @@ namespace ACMESaleManager2000.Controllers
 
         // PUT: api/SaleOrders/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin, Supervisor")]
         public IActionResult PutSaleOrderEntity([FromRoute] int id, [FromBody] SaleOrderViewModel saleOrderEntity)
         {
             if (!ModelState.IsValid)
@@ -94,6 +99,7 @@ namespace ACMESaleManager2000.Controllers
 
         // DELETE: api/SaleOrders/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin, Supervisor")]
         public IActionResult DeleteSaleOrderEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)

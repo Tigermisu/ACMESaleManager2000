@@ -11,11 +11,13 @@ using ACMESaleManager2000.DomainServices;
 using ACMESaleManager2000.ViewModels;
 using AutoMapper;
 using ACMESaleManager2000.DomainObjects;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ACMESaleManager2000.Controllers
 {
     [Produces("application/json")]
     [Route("api/Items")]
+    [Authorize]
     public class ItemsController : Controller
     {
         private readonly IItemService _itemService;
@@ -53,6 +55,7 @@ namespace ACMESaleManager2000.Controllers
 
         // PUT: api/Items/5
         [HttpPut("{id}")]
+        [Authorize(Roles="Admin, Supervisor")]
         public IActionResult PutItemEntity([FromRoute] int id, [FromBody] ItemViewModel itemEntity)
         {
             if (!ModelState.IsValid)
@@ -75,6 +78,7 @@ namespace ACMESaleManager2000.Controllers
 
         // POST: api/Items
         [HttpPost]
+        [Authorize(Roles = "Admin, Supervisor")]
         public IActionResult PostItemEntity([FromBody] ItemViewModel itemEntity)
         {
             if (!ModelState.IsValid)
@@ -89,6 +93,7 @@ namespace ACMESaleManager2000.Controllers
 
         // DELETE: api/Items/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin, Supervisor")]
         public IActionResult DeleteItemEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)

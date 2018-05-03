@@ -157,6 +157,7 @@ Vue.component('sale-point', {
             if (this.selector.item == null || parseInt(this.selector.quantity <= 0)) {
                 this.orderMessage = "Choose an item with a quantity greater than 0 to continue.";
                 this.orderFailed = true;
+                return false;
             }
             var preItem = this.selector.item,
                 price = 0,
@@ -183,7 +184,13 @@ Vue.component('sale-point', {
                         message = `There are only ${qty} ${preItem.name}s`;
                 }
 
-                alert(`${message} available in stock. Updating quantity.`);
+                alert(`${message} available in stock.`);
+
+                if (qty == 0) {
+                    this.orderMessage = `Item ${preItem.name} is out of stock`;
+                    this.orderFailed = true;
+                    return false;
+                }
             }
 
             preItem['price'] = price;
@@ -481,7 +488,7 @@ var app = new Vue({
                 },
 
                 lowStock: {
-                    delta: 7,
+                    delta: 5,
                     data: []
                 }
             }

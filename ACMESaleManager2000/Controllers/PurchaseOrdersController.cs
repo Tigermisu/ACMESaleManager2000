@@ -11,11 +11,13 @@ using ACMESaleManager2000.DomainServices;
 using AutoMapper;
 using ACMESaleManager2000.ViewModels;
 using ACMESaleManager2000.DomainObjects;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ACMESaleManager2000.Controllers
 {
     [Produces("application/json")]
     [Route("api/PurchaseOrders")]
+    [Authorize(Roles = "Admin, Supervisor")]
     public class PurchaseOrdersController : Controller
     {
         private readonly IPurchaseOrderService _purchaseOrderService;

@@ -43,6 +43,7 @@ namespace ACMESaleManager2000.Controllers
         }
 
         [HttpGet("profits/{deltaDays}")]
+        [Authorize(Roles = "Admin, Supervisor")]
         public ProfitReportViewModel GetProfits([FromRoute] int deltaDays)
         {
             return Mapper.Map<ProfitReportViewModel>(_dashboardService.GetProfits(deltaDays));
