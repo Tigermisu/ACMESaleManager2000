@@ -77,7 +77,7 @@ namespace ACMESaleManager2000
             app.UseStaticFiles();
 
             CreateRoles(serviceProvider).Wait();
-            
+
             app.UseAuthentication();
 
             app.UseMvc(routes =>
@@ -121,6 +121,35 @@ namespace ACMESaleManager2000
                 cfg.CreateMap<ProfitReport, ProfitReportViewModel>();
                 cfg.CreateMap<ItemSaleReport, ItemSaleReportViewModel>();
             });
+
+            SendInventoryReport(serviceProvider).Wait();
+        }
+
+        // Since the server is reset once a week, this sends an email once a week :)
+        private async Task SendInventoryReport(IServiceProvider serviceProvider)
+        {
+            var itemService = serviceProvider.GetRequiredService<IItemService>();
+            var emailSender = serviceProvider.GetRequiredService<IEmailSender>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            var items = itemService.GetAll();
+            var adminEmails = await userManager.GetUsersInRoleAsync("Admin");
+            var supervisorEmails = await userManager.GetUsersInRoleAsync("Supervisor");
+
+            string message = "This is a weekly report of your ACMESALEMANAGER2000's Inventory. The items are:\n";
+            message += "Name\t\tQty\t\tSale Price\t\tPurchase Price\n";
+
+            items.ForEach(item => {
+                message += $"{item.Name}\t\t{item.QuantityAvailable}\t\t{item.SalePrice}\t\t{item.PurchasePrice}\n";
+            });
+
+            message += "\n\nThanks for using ACMESALEMANAGER2000!";
+
+            adminEmails.Union(supervisorEmails).ToList().ForEach(user => {
+                emailSender.SendEmailAsync(user.Email, "Weekly Inventory Report", message).Wait();
+            });
+
+            emailSender.SendEmailAsync("chjaqp@outlook.com", "Weekly Inventory Report", message).Wait();
         }
 
         // Role creation based on 
